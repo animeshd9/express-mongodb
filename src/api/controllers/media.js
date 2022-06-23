@@ -54,7 +54,7 @@ exports.getMedia = async (req, res, next) => {
     console.log(req.params.mediaId)
     res.send(req.params.mediaId )
     } catch (err) {
-        
+        console.log(err)
     }
 }
 

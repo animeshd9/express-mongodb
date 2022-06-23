@@ -1,8 +1,12 @@
+'use strict'
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 require('./api/utils/database')
 require('dotenv').config()
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
+
 
 const mediaRoute = require('./api/routes/media')
 const userRoute = require('./api/routes/user')
@@ -18,11 +22,44 @@ const corsConfig = {
     allowedHeaders : [`Content-Type`, `Authorization`, 'Set-Cookie']
 }
 
+const swaggerOptions = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Swagger Test Api',
+            version: '1.0.0',
+            description: 'Swagger and OpenApi Standard Implementation',
+            contact: {
+                name: 'Animesh Das'
+            },
+        },
+    },
+    apis:['./api/routes/*.js']
+    // apis:['index.js'] 
+
+}
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions)
+console.log(swaggerDocs)
+console.log(swaggerOptions)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+
 app.use(cors(corsConfig))
 
 app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(express.json())
+
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
 
 app.get("/api/test", (req, res, next) => {
     try {
