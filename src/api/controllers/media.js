@@ -1,6 +1,8 @@
+"use strict"
 const Media = require('../models/media')
 const multer = require('multer')
 const sharp = require('sharp')
+const path = require('path')
 const fs = require('fs')
 const mediaModel = require('../models/media')
 const config = require('../../config/config').getConfig()
@@ -65,7 +67,13 @@ exports.addMedia = async (req, res, next) => {
     console.log(req.file)
     if(req.file.size > 1024 * 500) {
         console.log('resize')
-        await sharp(req.file.path).resize(800, 800).toFile(path.resolve(req.file.destination,req.file))
+        // console.log(path.resolve(__dirname+req.file.path))
+       console.log(path.resolve(`${__dirname}/../../uploads/${req.file.path}`))
+
+        console.log(__dirname)
+        console.log('working')
+        // console.log()
+        await sharp(path.resolve(`${__dirname}/../../uploads/${req.file.path}`)).resize(800, 800).toFile(path.resolve(`${__dirname}/../../uploads/new/${req.file.path}`))
     }
     const mediaData = new mediaModel({
         originalname: req.file.originalname,
@@ -89,7 +97,7 @@ exports.addMedia = async (req, res, next) => {
     console.log('resized')
 
    } catch (err) {
-       
+       console.log(err)
    }
 }
 

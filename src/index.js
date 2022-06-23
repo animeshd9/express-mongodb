@@ -34,7 +34,7 @@ app.get("/api/test", (req, res, next) => {
         next(err)
     }
 })
-
+console.log(__dirname)
 app.use('/api/media',mediaRoute)
 app.use('/api/user',userRoute)
 
