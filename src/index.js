@@ -4,7 +4,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 require('./api/utils/database')
 require('dotenv').config()
-const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express')
 
 
@@ -22,28 +22,31 @@ const corsConfig = {
     allowedHeaders : [`Content-Type`, `Authorization`, 'Set-Cookie']
 }
 
-const swaggerOptions = {
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Swagger Test Api',
-            version: '1.0.0',
-            description: 'Swagger and OpenApi Standard Implementation',
-            contact: {
-                name: 'Animesh Das'
-            },
-        },
+const swaggerDefinition = {
+    // openapi: '3.0.0',
+
+    info: {
+      // API informations (required)
+      title: 'Swagger Implementation', // Title (required)
+      version: '1.0.0', // Version (required)
+      description: 'Swagger and OpenApi Standard Implementation', // Description (optional)
+      contact: {
+        name: 'Animesh Das'
+      }
     },
-    apis:['./api/routes/*.js']
-    // apis:['index.js'] 
+    host: `localhost:${port}`, // Host (optional)
+    basePath: '/', // Base path (optional)
+  };
+const options = {
+swaggerDefinition,
+  apis: ['./src/api/routes/*.js'], // files containing annotations as above
+};
 
-}
+const openapiSpecification = swaggerJsdoc(options);
+console.log(openapiSpecification)
+console.log(options)
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions)
-console.log(swaggerDocs)
-console.log(swaggerOptions)
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(openapiSpecification))
 
 app.use(cors(corsConfig))
 
