@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 require('dotenv').config()
 
-const mongoUrl = process.env.mongo_url || 'mongodb+srv://Animesh:mongodb@cluster0.tc9y3.mongodb.net/Broadifi?retryWrites=true&w=majority'
+const mongoUrl = process.env.mongo_url || 'mongo_url'
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true , useUnifiedTopology: true})
 .then(() => {
